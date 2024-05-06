@@ -1,22 +1,28 @@
 package scrabble.application;
 
 public class ScrabbleApplicationConsole {
-	
-	private static final String LIGNE = "-------------------------------------------------------";
+    
+    private static final String LIGNE = "-------------------------------------------------------";
 
-	public void afficherMessageBienvenue() {
-		
+    public void afficherMessageBienvenue() {
         System.out.println(LIGNE);
-        System.out.println("-- Bienvenue dans notre magnifique jeu de scrabble ! --");
+        System.out.println("-- Bienvenue dans notre magnifique jeu de Scrabble ! --");
         System.out.println(LIGNE);
     }
     
-    // application Scrabble
     
+    public void afficherPlateauEtChevalet() {
+        AfficherPlateau.afficherPlateau();
+        Chevalet chevalet = new Chevalet();
+        System.out.println("Votre chevalet : " + chevalet.getJetons());
+    }
+
     public static void main(String[] args) {
         ScrabbleApplicationConsole jeuScrabble = new ScrabbleApplicationConsole();
         jeuScrabble.afficherMessageBienvenue();
-        
-        // Appeler d'autres méthodes ou démarrer le jeu ici
+        jeuScrabble.afficherPlateauEtChevalet();
     }
 }
+
+
+
