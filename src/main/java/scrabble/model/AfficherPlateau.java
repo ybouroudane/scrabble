@@ -5,7 +5,7 @@ public class AfficherPlateau {
     private static final int TAILLE_PLATEAU = 15;
 
     public static void afficherPlateau() {
-        System.out.println("Plateau de jeu du Scrabble :");
+        System.out.println("Plateau de jeu xxxx du Scrabble :");
         System.out.println("-----------------------------");
 
         
