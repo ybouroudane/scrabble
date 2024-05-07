@@ -1,4 +1,4 @@
-package scrabble.Console;
+package Console;
 
 public class Console {
 

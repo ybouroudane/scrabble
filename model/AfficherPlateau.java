@@ -1,4 +1,4 @@
-package scrabble.application;
+package model;
 
 public class AfficherPlateau {
 

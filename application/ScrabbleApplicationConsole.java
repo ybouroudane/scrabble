@@ -1,4 +1,4 @@
-package scrabble.application;
+package application;
 
 public class ScrabbleApplicationConsole {
     
