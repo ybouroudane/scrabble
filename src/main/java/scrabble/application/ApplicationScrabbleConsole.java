@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import scrabble.gui.Console;
+import scrabble.Console.Console;
 import scrabble.model.*;
 
 public class ApplicationScrabbleConsole {
@@ -95,16 +95,16 @@ public class ApplicationScrabbleConsole {
             Console.message("Entrez la position du jeton que vous voulez retirer : ");
             input = scanner.next(); // Changement de la méthode nextInt() à next()
 
-            if ((!input.equalsIgnoreCase(VALEUR_ARRET) && (Integer.parseInt(input) < 1 || Integer.parseInt(input) >= Chevalet.MAX_JETONS))) { // Changement de condition
-                Console.message("ERREUR, veuillez rentrer un nombre entre 1 et "+ Chevalet.MAX_JETONS +" ou OK pour arrêter : "); // Changement du message
+            if ((!input.equalsIgnoreCase(VALEUR_ARRET) && (Integer.parseInt(input) < 1 || Integer.parseInt(input) >= Chevalet.MAX_JETONS))) { 
+                Console.message("ERREUR, veuillez rentrer un nombre entre 1 et "+ Chevalet.MAX_JETONS +" ou OK pour arrêter : "); 
             }
-            else if (!input.equalsIgnoreCase(VALEUR_ARRET) && indices.contains(Integer.parseInt(input) - 1)) { // Changement de condition
+            else if (!input.equalsIgnoreCase(VALEUR_ARRET) && indices.contains(Integer.parseInt(input) - 1)) { 
                 Console.message("ERREUR, veuillez rentrer un nombre différent de ceux déjà entrés  : ");
             }
-            else if (!input.equalsIgnoreCase(VALEUR_ARRET)) { // Changement de condition
-                indices.add(Integer.parseInt(input) - 1); // Changement de parsing de l'entrée
+            else if (!input.equalsIgnoreCase(VALEUR_ARRET)) { 
+                indices.add(Integer.parseInt(input) - 1);
             }
-        } while (!input.equalsIgnoreCase(VALEUR_ARRET)); // Changement de condition
+        } while (!input.equalsIgnoreCase(VALEUR_ARRET));
         return indices;
     }
 
