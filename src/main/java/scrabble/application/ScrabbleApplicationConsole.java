@@ -7,7 +7,8 @@ public class ScrabbleApplicationConsole {
 	public void afficherMessageBienvenue() {
 		
         System.out.println(LIGNE);
-        System.out.println("-- Bienvenue dans notre magnifique jeu de scrabble ! --");
+        System.out.println("-- Bienvenue dans notre  jeu de scrabble ! --");
+        System.out.println("-- YOUSSEF --");
         System.out.println(LIGNE);
     }
     
