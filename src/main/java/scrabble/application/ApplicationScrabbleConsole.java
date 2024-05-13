@@ -22,8 +22,7 @@ public class ApplicationScrabbleConsole {
         System.out.println();
         
         PlateauJeu plateauJeu = new PlateauJeu();
-        SacDeJetons sacDeJetons = new SacDeJetons();
-        Joueur joueur1 = new Joueur("YOUSSEF");
+        SacDeJetons sacDeJetons = new SacDeJetons();  
         Scanner scanner = new Scanner(System.in);
         
         System.out.println("\033[1m Voici le Plateau du Scrabble : \033[0m");
@@ -43,6 +42,10 @@ public class ApplicationScrabbleConsole {
         sacDeJetons.melanger();
         
         System.out.println();
+        
+        Console.message("Entrez votre prénom : ");
+        String nomJoueur = scanner.nextLine();
+        Joueur joueur1 = new Joueur(nomJoueur);
         
         Console.message("Le joueur pioche");
         System.out.println();
