@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import scrabble.gui.Console;
+import scrabble.Console.Console;
 import scrabble.model.*;
 
 public class ApplicationScrabbleConsole {
@@ -22,8 +22,7 @@ public class ApplicationScrabbleConsole {
         System.out.println();
         
         PlateauJeu plateauJeu = new PlateauJeu();
-        SacDeJetons sacDeJetons = new SacDeJetons();
-        Joueur joueur1 = new Joueur("YOUSSEF");
+        SacDeJetons sacDeJetons = new SacDeJetons();  
         Scanner scanner = new Scanner(System.in);
         
         System.out.println("\033[1m Voici le Plateau du Scrabble : \033[0m");
@@ -35,27 +34,33 @@ public class ApplicationScrabbleConsole {
         System.out.println();
     
         afficherJetonsRestantsDansSac(sacDeJetons);
-        Console.message(sacDeJetons.afficher());
         
         System.out.println();
         
-        Console.message("On mélange le sac :");
+        Console.message("On mélange le sac ");
+
         sacDeJetons.melanger();
-        Console.message(sacDeJetons.afficher());
         
+        System.out.println();
+        
+        Console.message("Entrez votre prénom : ");
+        String nomJoueur = scanner.nextLine();
+        Joueur joueur1 = new Joueur(nomJoueur);
         
         Console.message("Le joueur pioche");
+        System.out.println();
         joueur1.piocher(sacDeJetons);
         
-        afficherJetonsRestantsDansSac(sacDeJetons);
-        
+        afficherJetonsRestantsV2(sacDeJetons);
+       
+        System.out.println();
         
         Console.message("Chevalet du joueur 1 :");
         Console.message(joueur1.ObtenirChevalet().afficher());
         
         modifierChevalet(joueur1, sacDeJetons, scanner);
         
-        Console.message("Mercii , Au revoir.");
+        Console.message("Merci , Au revoir.");
         
     }
 
@@ -88,28 +93,31 @@ public class ApplicationScrabbleConsole {
     }
 
     private static List<Integer> choisirJetonsAChanger(Scanner scanner) {
-        Console.title("  Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter"); // Changement du message
+        Console.title("  Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter"); 
         String input; 
         List<Integer> indices = new ArrayList<>();
         do {
             Console.message("Entrez la position du jeton que vous voulez retirer : ");
-            input = scanner.next(); // Changement de la méthode nextInt() à next()
+            input = scanner.next();
 
-            if ((!input.equalsIgnoreCase(VALEUR_ARRET) && (Integer.parseInt(input) < 1 || Integer.parseInt(input) >= Chevalet.MAX_JETONS))) { // Changement de condition
-                Console.message("ERREUR, veuillez rentrer un nombre entre 1 et "+ Chevalet.MAX_JETONS +" ou OK pour arrêter : "); // Changement du message
+            if ((!input.equalsIgnoreCase(VALEUR_ARRET) && (Integer.parseInt(input) < 1 || Integer.parseInt(input) >= Chevalet.MAX_JETONS))) { 
+                Console.message("ERREUR, veuillez rentrer un nombre entre 1 et "+ Chevalet.MAX_JETONS +" ou OK pour arrêter : "); 
             }
-            else if (!input.equalsIgnoreCase(VALEUR_ARRET) && indices.contains(Integer.parseInt(input) - 1)) { // Changement de condition
+            else if (!input.equalsIgnoreCase(VALEUR_ARRET) && indices.contains(Integer.parseInt(input) - 1)) { 
                 Console.message("ERREUR, veuillez rentrer un nombre différent de ceux déjà entrés  : ");
             }
-            else if (!input.equalsIgnoreCase(VALEUR_ARRET)) { // Changement de condition
-                indices.add(Integer.parseInt(input) - 1); // Changement de parsing de l'entrée
+            else if (!input.equalsIgnoreCase(VALEUR_ARRET)) { 
+                indices.add(Integer.parseInt(input) - 1); 
             }
-        } while (!input.equalsIgnoreCase(VALEUR_ARRET)); // Changement de condition
+        } while (!input.equalsIgnoreCase(VALEUR_ARRET)); 
         return indices;
     }
 
     private static void afficherJetonsRestantsDansSac(SacDeJetons sacDeJetons) {
-        Console.message("Il y'a "+sacDeJetons.nombreDeJetonsRestants()+" jetons dans le sac :");
+        Console.message("le sac contient  "+sacDeJetons.nombreDeJetonsRestants()+" jetons");
+    }
+    private static void afficherJetonsRestantsV2(SacDeJetons sacDeJetons) {
+        Console.message("Maintenant le sac contient   "+sacDeJetons.nombreDeJetonsRestants()+" jetons.");
     }
 
 }
