@@ -47,8 +47,4 @@ public class ScrabbleJeuxEssais {
         System.out.println(plateau.afficherPlateauJeu());
     }
 
-    // Test 5 : Tester le calcul des points
-    private static void testCalculPoints() {
-        // Simuler un mot placé sur le plateau et vérifier que les points sont correctement calculés
-    }
 }
