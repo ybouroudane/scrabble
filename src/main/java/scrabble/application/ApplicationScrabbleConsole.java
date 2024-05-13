@@ -55,7 +55,7 @@ public class ApplicationScrabbleConsole {
         
         modifierChevalet(joueur1, sacDeJetons, scanner);
         
-        Console.message("Mercii , Au revoir.");
+        Console.message("Merci , Au revoir.");
         
     }
 
@@ -88,7 +88,7 @@ public class ApplicationScrabbleConsole {
     }
 
     private static List<Integer> choisirJetonsAChanger(Scanner scanner) {
-        Console.title("  Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter"); // Changement du message
+        Console.title("  Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter"); 
         String input; 
         List<Integer> indices = new ArrayList<>();
         do {
