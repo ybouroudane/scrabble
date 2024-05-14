@@ -10,6 +10,7 @@ public class SacDeJetons {
     public SacDeJetons() {
         this.jetons = new ArrayList<>();
         initialiserJetons();
+        melanger(); 
     }
 
     private void initialiserJetons() {
@@ -42,15 +43,14 @@ public class SacDeJetons {
         ajouterLettres(Lettres.JOKER, 2);
     }
 
-
     private void ajouterLettres(Lettres lettre, int quantite) {
         for (int i = 0; i < quantite; i++) {
             this.jetons.add(new Jeton(lettre));
         }
     }
 
-    public List<Jeton> ObtenirUnJetons() {
-        return jetons;
+    public List<Jeton> obtenirUnJetons() {
+        return this.jetons;
     }
 
     public Jeton piocherJeton() {
