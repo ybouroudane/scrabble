@@ -40,7 +40,8 @@ public class Chevalet {
     public String afficher() {
         StringBuilder affichage = new StringBuilder();
         for (Jeton jeton : jetons) {
-            affichage.append(jeton.afficher()).append(" ");
+            affichage.append(jeton.afficher())
+                     .append(" ");
         }
         return affichage.toString();
     }
