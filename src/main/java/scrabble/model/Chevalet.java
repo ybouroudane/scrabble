@@ -42,7 +42,7 @@ public class Chevalet {
         for (Jeton jeton : jetons) {
             affichage.append(jeton.afficher())
                      .append(" ");
-        }
+        }	
         return affichage.toString();
     }
 }

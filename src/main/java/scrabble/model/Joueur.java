@@ -14,10 +14,10 @@ public class Joueur {
 		this.chevalet = new Chevalet();
 	}
 	
-	public int ObtenirScore() {
+	public int AfficherScore() {
 		return score;
 	}
-	public void VoirScore(int score) {
+	public void DefinirScore(int score) {
 		this.score = score;
 	}
 	public String getNom() {

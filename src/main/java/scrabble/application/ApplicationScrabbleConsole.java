@@ -13,49 +13,48 @@ public class ApplicationScrabbleConsole {
     
     public static void main(String[] args) {
         
-        System.out.printf("%s%n", "------Bienvenue dans notre jeu de Scrabble---- ");
-        System.out.println();
-        System.out.printf("%s%n", "Développé par YOUSSEF, Kyllian et Benjamin");
-        System.out.println();
-        System.out.printf("%s%n", "Le Scrabble est un jeu où les joueurs doivent former des mots en plaçant des Jetons sur un plateau.");
-        System.out.printf("%s%n", "Les joueurs peuvent échanger des Jetons de leur Chevalet avec celles du sac.");
-        System.out.println();
+        Console.message("------Bienvenue dans notre jeu de Scrabble---- ");
+        Console.message("");
+        Console.message("Développé par YOUSSEF, Kyllian et Benjamin");
+        Console.message("");
+        Console.message("Le Scrabble est un jeu où les joueurs doivent former des mots en plaçant des Jetons sur un plateau.");
+        Console.message("Les joueurs peuvent échanger des Jetons de leur Chevalet avec celles du sac.");
+        Console.message("");
         
         PlateauJeu plateauJeu = new PlateauJeu();
         SacDeJetons sacDeJetons = new SacDeJetons();  
         Scanner scanner = new Scanner(System.in);
         
-        System.out.println("\033[1m Voici le Plateau du Scrabble : \033[0m");
-        System.out.println();
-        
+        Console.message("\033[1m Voici le Plateau du Scrabble : \033[0m");
+        Console.message("");
         Console.message(plateauJeu.afficherPlateauJeu());
         
-        System.out.println("\033[1m Initialisation du sac de jetons en cours.. \033[0m");
-        System.out.println();
+        Console.message("\033[1m Initialisation du sac de jetons en cours.. \033[0m");
+        Console.message("");
     
         afficherJetonsRestantsDansSac(sacDeJetons);
         
-        System.out.println();
+        Console.message("");
         
         Console.message("On mélange le sac ");
 
         sacDeJetons.melanger();
         
-        System.out.println();
+        Console.message("");
         
         Console.message("Entrez votre prénom : ");
         String nomJoueur = scanner.nextLine();
         Joueur joueur1 = new Joueur(nomJoueur);
         
         Console.message("Le joueur pioche");
-        System.out.println();
+        Console.message("");
         joueur1.piocher(sacDeJetons);
         
         afficherJetonsRestantsV2(sacDeJetons);
        
-        System.out.println();
+        Console.message("");
         
-        Console.message("Chevalet du joueur 1 :");
+        Console.message("Chevalet de " + nomJoueur + " :");
         Console.message(joueur1.ObtenirChevalet().afficher());
         
         modifierChevalet(joueur1, sacDeJetons, scanner);
