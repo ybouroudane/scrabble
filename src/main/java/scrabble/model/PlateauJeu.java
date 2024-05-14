@@ -16,7 +16,7 @@ public class PlateauJeu {
                 cases[i][j] = new Case();
             }
         }
-        cases[TAILLE_GRILLE / 2][TAILLE_GRILLE / 2] = new Case(true);
+        cases[TAILLE_GRILLE / 2][TAILLE_GRILLE / 2] = new Case(true, false, false);
     }
 
     public String afficherPlateauJeu() {
@@ -49,23 +49,5 @@ public class PlateauJeu {
 
 
 
-    public String afficherGrille() {
-        StringBuilder temp = new StringBuilder();
-        temp.append("     1   2   3   4   5   6   7   8   9  10  11  12  13  14  15\n");
-        for (int i = 0; i < 15; i++) {
-            temp.append("   -------------------------------------------------------------\n");
-            temp.append(String.format("%2d ", i + 1));
-            for (int j = 0; j < 15; j++) {
-                Case laCase = this.cases[i][j];
-                if (laCase.estOccupee()) {
-                    temp.append("| " + laCase.ObtenirUnJeton().ObtenirLettre() + " ");
-                } else {
-                    temp.append("|   ");
-                }
-            }
-            temp.append("|\n");
-        }
-        temp.append("   -------------------------------------------------------------\n");
-        return temp.toString();
-    }
+    
 }
