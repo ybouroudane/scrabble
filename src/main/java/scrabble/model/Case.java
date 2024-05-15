@@ -10,24 +10,20 @@ public class Case {
     private boolean estTripleMot;
 
     // Constructeur primaire
-    public Case() {
-        this.jeton = null;
-        this.estOccupee = false;
-        this.contientEtoile = false;
-        this.estDoubleLettre = false;
-        this.estTripleLettre = false;
-        this.estDoubleMot = false;
-        this.estTripleMot = false;
-    }
-
-    public Case(boolean contientEtoile, boolean estDoubleLettre, boolean estTripleLettre,
-                boolean estDoubleMot, boolean estTripleMot) {
-        this(); // Appelle le constructeur primaire pour initialiser les variables communes
+    public Case(Jeton jeton, boolean estOccupee, boolean contientEtoile, boolean estDoubleLettre,
+                boolean estTripleLettre, boolean estDoubleMot, boolean estTripleMot) {
+        this.jeton = jeton;
+        this.estOccupee = estOccupee;
         this.contientEtoile = contientEtoile;
         this.estDoubleLettre = estDoubleLettre;
         this.estTripleLettre = estTripleLettre;
         this.estDoubleMot = estDoubleMot;
         this.estTripleMot = estTripleMot;
+    }
+
+    // Constructeur secondaire
+    public Case() {
+        this(null, false, false, false, false, false, false);
     }
 
     public Jeton obtenirUnJeton() {
