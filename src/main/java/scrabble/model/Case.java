@@ -3,29 +3,19 @@ package scrabble.model;
 public class Case {
     private Jeton jeton;
     private boolean estOccupee;
-    private boolean contientEtoile;
-    private boolean estDoubleLettre;
-    private boolean estTripleLettre;
-    private boolean estDoubleMot;
-    private boolean estTripleMot;
+    private CaseSpeciale typeCase;
 
     // Constructeur primaire
-    public Case(Jeton jeton, boolean estOccupee, boolean contientEtoile, boolean estDoubleLettre,
-                boolean estTripleLettre, boolean estDoubleMot, boolean estTripleMot) {
+    public Case(Jeton jeton, boolean estOccupee, CaseSpeciale typeCase) {
         this.jeton = jeton;
         this.estOccupee = estOccupee;
-        this.contientEtoile = contientEtoile;
-        this.estDoubleLettre = estDoubleLettre;
-        this.estTripleLettre = estTripleLettre;
-        this.estDoubleMot = estDoubleMot;
-        this.estTripleMot = estTripleMot;
+        this.typeCase = typeCase;
     }
 
     // Constructeur secondaire
     public Case() {
-        this(null, false, false, false, false, false, false);
+        this(null, false, CaseSpeciale.NORMALE);
     }
-
     public Jeton obtenirUnJeton() {
         return this.jeton;
     }
@@ -34,23 +24,27 @@ public class Case {
         return this.estOccupee;
     }
 
-    public boolean contientEtoile() {
-        return this.contientEtoile;
+    public boolean estCaseNormale() {
+        return typeCase == CaseSpeciale.NORMALE;
+    }
+
+    public boolean estCaseEtoile() {
+        return typeCase == CaseSpeciale.ETOILE;
     }
 
     public boolean estDoubleLettre() {
-        return this.estDoubleLettre;
+        return typeCase == CaseSpeciale.DOUBLE_LETTRE;
     }
 
     public boolean estTripleLettre() {
-        return this.estTripleLettre;
+        return typeCase == CaseSpeciale.TRIPLE_LETTRE;
     }
 
     public boolean estDoubleMot() {
-        return this.estDoubleMot;
+        return typeCase == CaseSpeciale.DOUBLE_MOT;
     }
 
     public boolean estTripleMot() {
-        return this.estTripleMot;
+        return typeCase == CaseSpeciale.TRIPLE_MOT;
     }
 }
