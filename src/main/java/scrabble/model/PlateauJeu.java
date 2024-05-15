@@ -16,7 +16,7 @@ public class PlateauJeu {
                 plateau[i][j] = new Case();
             }
         }
-        plateau[TAILLE_GRILLE / 2][TAILLE_GRILLE / 2] = new Case(true, false, false, false, false);
+        plateau[TAILLE_GRILLE / 2][TAILLE_GRILLE / 2] = new Case(null, true, false, false, false, false, false);
         
         
         int[][] casesDL = {{3, 1}, {7, 1}, {11, 1}, {15, 1}, {2, 2}, {6, 2}, {10, 2}, {14, 2},
@@ -26,24 +26,24 @@ public class PlateauJeu {
                            {8, 11}, {15, 11}, {1, 12}, {8, 12}, {15, 12}, {2, 14}, {6, 14},
                            {10, 14}, {14, 14}};
         for (int[] coord : casesDL) {
-            plateau[coord[0]-1][coord[1]-1] = new Case(false, true, false, false, false); // DL
+            plateau[coord[0]-1][coord[1]-1] = new Case(null, false, true, false, false, false, false); // DL
         }
 
         
         int[][] casesTL = {{5, 1}, {9, 1}, {13, 1}, {5, 5}, {9, 5}, {13, 5},
                            {5, 9}, {9, 9}, {13, 9}, {5, 13}, {9, 13}, {13, 13}};
         for (int[] coord : casesTL) {
-            plateau[coord[0]-1][coord[1]-1] = new Case(false, false, true, false, false); // TL
+            plateau[coord[0]-1][coord[1]-1] = new Case(null, false, false, true, false, false, false); // TL
         }
 
         int[][] casesDM = {{4, 4}, {12, 4}, {4, 12}, {12, 12}};
         for (int[] coord : casesDM) {
-            plateau[coord[0]-1][coord[1]-1] = new Case(true, true, false, false, false); // DM
+            plateau[coord[0]-1][coord[1]-1] = new Case(null, true, true, false, false, false, false); // DM
         }
 
         int[][] casesTM = {{1, 1}, {1, 8}, {8, 1}, {15, 15}, {1, 15}, {15, 1}, {15, 8}, {8, 15}};
         for (int[] coord : casesTM) {
-            plateau[coord[0]-1][coord[1]-1] = new Case(true, false, true, false, false); // TM
+            plateau[coord[0]-1][coord[1]-1] = new Case(null, true, false, true, false, false, false); // TM
         }
     }
 
