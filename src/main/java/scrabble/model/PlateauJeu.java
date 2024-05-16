@@ -68,7 +68,7 @@ public class PlateauJeu {
                 // Affichage des cases avec leurs spécificités
                 if (i == _TAILLE_GRILLE_ / 2 && j == _TAILLE_GRILLE_ / 2) {
                     temp.append("| * "); // Écrire une étoile dans la case du milieu
-                } else if (plateau[i][j].estCaseEtoile()) {
+                } else 
                     if (plateau[i][j].estDoubleMot()) {
                         temp.append("|DM ");
                     } else if (plateau[i][j].estTripleMot()) {
@@ -77,8 +77,7 @@ public class PlateauJeu {
                         temp.append("|DL ");
                     } else if (plateau[i][j].estTripleLettre()) {
                         temp.append("|TL ");
-                    }
-                } else {
+                    } else {
                     temp.append("|   "); // Sinon, écrire une case vide
                 }
             }

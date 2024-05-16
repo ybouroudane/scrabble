@@ -25,26 +25,26 @@ public class Case {
     }
 
     public boolean estCaseNormale() {
-        return typeCase == CaseSpeciale.NORMALE;
+        return typeCase.equals(CaseSpeciale.NORMALE);
     }
 
     public boolean estCaseEtoile() {
-        return typeCase == CaseSpeciale.ETOILE;
+        return typeCase.equals(CaseSpeciale.ETOILE);
     }
 
     public boolean estDoubleLettre() {
-        return typeCase == CaseSpeciale.DOUBLE_LETTRE;
+        return typeCase.equals(CaseSpeciale.DOUBLE_LETTRE);
     }
 
     public boolean estTripleLettre() {
-        return typeCase == CaseSpeciale.TRIPLE_LETTRE;
+        return typeCase.equals(CaseSpeciale.TRIPLE_LETTRE);
     }
 
     public boolean estDoubleMot() {
-        return typeCase == CaseSpeciale.DOUBLE_MOT;
+        return typeCase.equals(CaseSpeciale.DOUBLE_MOT);
     }
 
     public boolean estTripleMot() {
-        return typeCase == CaseSpeciale.TRIPLE_MOT;
+        return typeCase.equals(CaseSpeciale.TRIPLE_MOT);
     }
 }
