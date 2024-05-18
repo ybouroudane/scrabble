@@ -3,120 +3,119 @@ package scrabble.application;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import scrabble.Console.Console;
 import scrabble.model.*;
 
 public class ApplicationScrabbleConsole {
-    
-    public static final String VALEUR_ARRET = "OK"; 
-    
-    public static void main(String[] args) {
-        
-        Console.message("------Bienvenue dans notre jeu de Scrabble---- ");
-        Console.message("");
-        Console.message("Développé par YOUSSEF, Kyllian et Benjamin");
-        Console.message("");
-        Console.message("Le Scrabble est un jeu où les joueurs doivent former des mots en plaçant des Jetons sur un plateau.");
-        Console.message("Les joueurs peuvent échanger des Jetons de leur Chevalet avec celles du sac.");
-        Console.message("");
-        
-        PlateauJeu plateauJeu = new PlateauJeu();
-        SacDeJetons sacDeJetons = new SacDeJetons();  
-        Scanner scanner = new Scanner(System.in);
-        
-        Console.message("\033[1m Voici le Plateau du Scrabble : \033[0m");
-        Console.message("");
-        Console.message(plateauJeu.afficherPlateauJeu());
-        
-        Console.message("\033[1m Initialisation du sac de jetons en cours.. \033[0m");
-        Console.message("");
-    
-        afficherJetonsRestantsDansSac(sacDeJetons);
-        
-        Console.message("");
-        
-        Console.message("On mélange le sac ");
 
+    private static final String VALEUR_ARRET = "OK";
+
+    public static void main(String[] args) {
+        PlateauJeu plateauJeu = new PlateauJeu();
+        SacDeJetons sacDeJetons = new SacDeJetons();
+        Scanner scanner = new Scanner(System.in);
+
+        Console.message(plateauJeu.afficherPlateauJeu());
         sacDeJetons.melanger();
-        
-        Console.message("");
-        
-        Console.message("Entrez votre prénom : ");
+        afficherJetonsRestantsDansSac(sacDeJetons);
+
+        Console.message("Entrez votre prénom:");
         String nomJoueur = scanner.nextLine();
         Joueur joueur1 = new Joueur(nomJoueur);
-        
-        Console.message("Le joueur pioche");
-        Console.message("");
         joueur1.piocher(sacDeJetons);
-        
         afficherJetonsRestantsV2(sacDeJetons);
-       
-        Console.message("");
-        
-        Console.message("Chevalet de " + nomJoueur + " :");
-        Console.message(joueur1.ObtenirChevalet().afficher());
-        
+        Console.message("Chevalet de " + nomJoueur + ": " + joueur1.ObtenirChevalet().afficher());
         modifierChevalet(joueur1, sacDeJetons, scanner);
-        
-        Console.message("Merci , Au revoir.");
-        
+
+        while (true) {
+            placerUneLettreJoueur(joueur1, plateauJeu, scanner);
+            joueur1.piocher(sacDeJetons);
+            Console.message("Chevalet de " + nomJoueur + ": " + joueur1.ObtenirChevalet().afficher());
+        }
+    }
+
+    private static void placerUneLettreJoueur(Joueur joueur, PlateauJeu plateau, Scanner scanner) {
+        if (plateau.estVide()) {
+            int ligneCentrale = PlateauJeu._TAILLE_GRILLE_ / 2;
+            int colonneCentrale = PlateauJeu._TAILLE_GRILLE_ / 2;
+            placerLettre(joueur, plateau, ligneCentrale, colonneCentrale, scanner);
+            Console.message(plateau.afficherPlateauJeu());
+        } else {
+            Console.message("Entrez la ligne:");
+            int ligne = scanner.nextInt() - 1;
+            Console.message("Entrez la colonne:");
+            int colonne = scanner.nextInt() - 1;
+
+            if (ligne >= 0 && ligne < PlateauJeu._TAILLE_GRILLE_ && colonne >= 0 && colonne < PlateauJeu._TAILLE_GRILLE_
+                    && plateau.obtenirCaseA(ligne, colonne).estVide()) {
+                placerLettre(joueur, plateau, ligne, colonne, scanner);
+                Console.message(plateau.afficherPlateauJeu());
+            } else {
+                Console.message("Position invalide.");
+            }
+        }
+    }
+
+    private static void placerLettre(Joueur joueur, PlateauJeu plateau, int ligne, int colonne, Scanner scanner) {
+        Console.message("Chevalet du joueur: " + joueur.ObtenirChevalet().afficher());
+        Console.message("Entrez l'indice de la lettre à placer:");
+        int indiceLettre = scanner.nextInt() - 1;
+
+        if (indiceLettre >= 0 && indiceLettre <= Chevalet.MAX_JETONS) {
+            Jeton lettre = joueur.ObtenirChevalet().retirerJeton(indiceLettre);
+            plateau.obtenirCaseA(ligne, colonne).setJeton(lettre);
+            Console.message("La lettre " + lettre.ObtenirLettre() + " a été placée en (" + (ligne + 1) + ", " + (colonne + 1) + ").");
+            Console.message(plateau.afficherPlateauJeu());
+            joueur.piocher(new SacDeJetons());
+            Console.message("Nouveau chevalet de " + joueur.getNom() + ": " + joueur.ObtenirChevalet().afficher());
+            modifierChevalet(joueur, new SacDeJetons(), scanner);
+        } else {
+            Console.message("Indice de lettre invalide.");
+        }
     }
 
     private static void modifierChevalet(Joueur joueur, SacDeJetons sacDeJetons, Scanner scanner) {
-        List<Integer> indices;
-        String input;
+        Console.message("Voulez-vous échanger des jetons du chevalet? (oui/non)");
+        String input = scanner.next();
 
-        do {
-            Console.title("Voulez-vous échanger des jetons ? (oui/non)");
-            input = scanner.next();
-            
-            if (input.equalsIgnoreCase("oui")) {
-                indices = choisirJetonsAChanger(scanner);
-                
-                if (!indices.isEmpty()) {
-                    Console.message("Chevalet actuel du joueur :");
-                    Console.message(joueur.ObtenirChevalet().afficher());
-                    
-                    joueur.echangerJetons(sacDeJetons, indices);
-                    
-                    Console.message("Nouveau chevalet du joueur :");
-                    Console.message(joueur.ObtenirChevalet().afficher());
-                }
-            } else if (input.equalsIgnoreCase("non")) {
-                break;
-            } else {
-                Console.message("Veuillez répondre par 'oui' ou 'non'.");
+        if (input.equalsIgnoreCase("oui")) {
+            List<Integer> indices = choisirJetonsAChanger(scanner);
+
+            if (!indices.isEmpty()) {
+                Console.message("Chevalet actuel du joueur: " + joueur.ObtenirChevalet().afficher());
+                joueur.echangerJetons(sacDeJetons, indices);
+                Console.message("Nouveau chevalet du joueur: " + joueur.ObtenirChevalet().afficher());
             }
-        } while (true);
+        } else if (!input.equalsIgnoreCase("non")) {
+            Console.message("Veuillez répondre par 'oui' ou 'non'.");
+        }
     }
 
     private static List<Integer> choisirJetonsAChanger(Scanner scanner) {
-        Console.title("  Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter"); 
-        String input; 
+        Console.message("Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter");
         List<Integer> indices = new ArrayList<>();
-        do {
-            Console.message("Entrez la position du jeton que vous voulez retirer : ");
-            input = scanner.next();
+        while (true) {
+            Console.message("Entrez la position du jeton que vous voulez retirer:");
+            String input = scanner.next();
 
-            if ((!input.equalsIgnoreCase(VALEUR_ARRET) && (Integer.parseInt(input) < 1 || Integer.parseInt(input) >= Chevalet.MAX_JETONS))) { 
-                Console.message("ERREUR, veuillez rentrer un nombre entre 1 et "+ Chevalet.MAX_JETONS +" ou OK pour arrêter : "); 
+            if (input.equalsIgnoreCase(VALEUR_ARRET)) {
+                break;
+            } else if (Integer.parseInt(input) < 1 || Integer.parseInt(input) >= Chevalet.MAX_JETONS) {
+                Console.message("ERREUR, veuillez rentrer un nombre entre 1 et " + Chevalet.MAX_JETONS + " ou OK pour arrêter:");
+            } else if (indices.contains(Integer.parseInt(input) - 1)) {
+                Console.message("ERREUR, veuillez rentrer un nombre différent de ceux déjà entrés:");
+            } else {
+                indices.add(Integer.parseInt(input) - 1);
             }
-            else if (!input.equalsIgnoreCase(VALEUR_ARRET) && indices.contains(Integer.parseInt(input) - 1)) { 
-                Console.message("ERREUR, veuillez rentrer un nombre différent de ceux déjà entrés  : ");
-            }
-            else if (!input.equalsIgnoreCase(VALEUR_ARRET)) { 
-                indices.add(Integer.parseInt(input) - 1); 
-            }
-        } while (!input.equalsIgnoreCase(VALEUR_ARRET)); 
+        }
         return indices;
     }
 
     private static void afficherJetonsRestantsDansSac(SacDeJetons sacDeJetons) {
-        Console.message("le sac contient  "+sacDeJetons.nombreDeJetonsRestants()+" jetons");
-    }
-    private static void afficherJetonsRestantsV2(SacDeJetons sacDeJetons) {
-        Console.message("Maintenant le sac contient   "+sacDeJetons.nombreDeJetonsRestants()+" jetons.");
+        Console.message("Le sac contient " + sacDeJetons.nombreDeJetonsRestants() + " jetons");
     }
 
+    private static void afficherJetonsRestantsV2(SacDeJetons sacDeJetons) {
+        Console.message("Maintenant le sac contient " + sacDeJetons.nombreDeJetonsRestants() + " jetons.");
+    }
 }

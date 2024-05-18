@@ -49,7 +49,7 @@ public class SacDeJetons {
         }
     }
 
-    public List<Jeton> obtenirUnJetons() {
+    public List<Jeton> obtenirJetons() {
         return this.jetons;
     }
 
@@ -64,8 +64,8 @@ public class SacDeJetons {
         this.jetons.add(jeton);
     }
 
-    public void ajouterTous(List<Jeton> Jetons) {
-        this.jetons.addAll(Jetons);
+    public void ajouterTous(List<Jeton> jetons) {
+        this.jetons.addAll(jetons);
     }
 
     public boolean estVide() {
@@ -83,7 +83,7 @@ public class SacDeJetons {
     public String afficher() {
         StringBuilder temp = new StringBuilder();
         for (Jeton jeton : jetons) {
-            temp.append(jeton.afficher()).append(" ");
+            temp.append(jeton.ObtenirLettre()).append(" ");
         }
         return temp.toString();
     }

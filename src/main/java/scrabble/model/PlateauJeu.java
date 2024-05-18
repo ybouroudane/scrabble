@@ -65,19 +65,21 @@ public class PlateauJeu {
             temp.append(String.format("%2d", i + 1)); // Numéro de ligne
 
             for (int j = 0; j < _TAILLE_GRILLE_; j++) {
-                // Affichage des cases avec leurs spécificités
-                if (i == _TAILLE_GRILLE_ / 2 && j == _TAILLE_GRILLE_ / 2) {
-                    temp.append("| * "); // Écrire une étoile dans la case du milieu
-                } else 
-                    if (plateau[i][j].estDoubleMot()) {
-                        temp.append("|DM ");
-                    } else if (plateau[i][j].estTripleMot()) {
-                        temp.append("|TM ");
-                    } else if (plateau[i][j].estDoubleLettre()) {
-                        temp.append("|DL ");
-                    } else if (plateau[i][j].estTripleLettre()) {
-                        temp.append("|TL ");
-                    } else {
+                // Affichage des cases avec leurs spécificités et les jetons placés
+                Case caseActuelle = plateau[i][j];
+                if (caseActuelle.getJeton() != null) {
+                    temp.append("| ").append(caseActuelle.getJeton().ObtenirLettre()).append(" ");
+                } else if (caseActuelle.ObtenirCaseSpeciale() == CaseSpeciale.ETOILE) {
+                    temp.append("| * ");
+                } else if (caseActuelle.estDoubleMot()) {
+                    temp.append("|DM ");
+                } else if (caseActuelle.estTripleMot()) {
+                    temp.append("|TM ");
+                } else if (caseActuelle.estDoubleLettre()) {
+                    temp.append("|DL ");
+                } else if (caseActuelle.estTripleLettre()) {
+                    temp.append("|TL ");
+                } else {
                     temp.append("|   "); // Sinon, écrire une case vide
                 }
             }
@@ -86,5 +88,20 @@ public class PlateauJeu {
         temp.append(" ____________________________________________________________________\n");
 
         return temp.toString();
+    }
+    public boolean estVide() {
+        for (int i = 0; i < _TAILLE_GRILLE_; i++) {
+            for (int j = 0; j < _TAILLE_GRILLE_; j++) {
+                if (!plateau[i][j].estVide()) {
+                    return false; // Il y a au moins une case non vide
+                }
+            }
+        }
+        return true; // Toutes les cases sont vides
+    }
+
+    // Nouvelle méthode pour obtenir une case spécifique du plateau
+    public Case obtenirCaseA(int ligne, int colonne) {
+        return plateau[ligne][colonne];
     }
 }

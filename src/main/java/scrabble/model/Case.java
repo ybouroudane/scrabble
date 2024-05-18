@@ -2,49 +2,50 @@ package scrabble.model;
 
 public class Case {
     private Jeton jeton;
-    private boolean estOccupee;
-    private CaseSpeciale typeCase;
+    private boolean doubleMot;
+    private CaseSpeciale caseSpeciale;
 
-    // Constructeur primaire
-    public Case(Jeton jeton, boolean estOccupee, CaseSpeciale typeCase) {
-        this.jeton = jeton;
-        this.estOccupee = estOccupee;
-        this.typeCase = typeCase;
-    }
-
-    // Constructeur secondaire
     public Case() {
-        this(null, false, CaseSpeciale.NORMALE);
-    }
-    public Jeton obtenirUnJeton() {
-        return this.jeton;
-    }
-
-    public boolean estOccupee() {
-        return this.estOccupee;
+        this.jeton = null;
+        this.doubleMot = false;
+        this.caseSpeciale = CaseSpeciale.NORMALE;
     }
 
-    public boolean estCaseNormale() {
-        return typeCase.equals(CaseSpeciale.NORMALE);
+    public Case(Jeton jeton, boolean doubleMot, CaseSpeciale caseSpeciale) {
+        this.jeton = jeton;
+        this.doubleMot = doubleMot;
+        this.caseSpeciale = caseSpeciale;
     }
 
-    public boolean estCaseEtoile() {
-        return typeCase.equals(CaseSpeciale.ETOILE);
+    public Jeton getJeton() {
+        return jeton;
     }
 
-    public boolean estDoubleLettre() {
-        return typeCase.equals(CaseSpeciale.DOUBLE_LETTRE);
-    }
-
-    public boolean estTripleLettre() {
-        return typeCase.equals(CaseSpeciale.TRIPLE_LETTRE);
+    public void setJeton(Jeton jeton) {
+        this.jeton = jeton;
     }
 
     public boolean estDoubleMot() {
-        return typeCase.equals(CaseSpeciale.DOUBLE_MOT);
+        return doubleMot;
+    }
+
+    public boolean estDoubleLettre() {
+        return caseSpeciale == CaseSpeciale.DOUBLE_LETTRE;
+    }
+
+    public boolean estTripleLettre() {
+        return caseSpeciale == CaseSpeciale.TRIPLE_LETTRE;
     }
 
     public boolean estTripleMot() {
-        return typeCase.equals(CaseSpeciale.TRIPLE_MOT);
+        return caseSpeciale == CaseSpeciale.TRIPLE_MOT;
+    }
+
+    public boolean estVide() {
+        return jeton == null;
+    }
+
+    public CaseSpeciale ObtenirCaseSpeciale() {
+        return caseSpeciale;
     }
 }
