@@ -14,7 +14,15 @@ public class ApplicationScrabbleConsole {
         PlateauJeu plateauJeu = new PlateauJeu();
         SacDeJetons sacDeJetons = new SacDeJetons();
         Scanner scanner = new Scanner(System.in);
-
+        Console.message(" ");
+        Console.message("Bienvenue Dans notre jeu SCRABBLE .");
+        Console.message(" ");
+        Console.message("Ce jeu est implementé par YOUSSEF , BENJAMIN , KYLLIAN .");
+        Console.message(" ");
+        Console.message("Voici le Tableau du Jeu : ");
+        Console.message(" ");
+        Console.message(" ");
+        
         Console.message(plateauJeu.afficherPlateauJeu());
         sacDeJetons.melanger();
         afficherJetonsRestantsDansSac(sacDeJetons);
@@ -63,6 +71,12 @@ public class ApplicationScrabbleConsole {
 
         if (indiceLettre >= 0 && indiceLettre <= Chevalet.MAX_JETONS) {
             Jeton lettre = joueur.ObtenirChevalet().retirerJeton(indiceLettre);
+            if (lettre.ObtenirLettre() == Lettres.JOKER) {
+                Console.message("Vous avez choisi un joker. Entrez la lettre que vous voulez remplacer :");
+                String nouvelleLettre = scanner.next().toUpperCase();
+                Lettres nouvelleLettreEnum = Lettres.fromChar(nouvelleLettre.charAt(0));
+                lettre = new Jeton(nouvelleLettreEnum);
+            }
             plateau.obtenirCaseA(ligne, colonne).setJeton(lettre);
             Console.message("La lettre " + lettre.ObtenirLettre() + " a été placée en (" + (ligne + 1) + ", " + (colonne + 1) + ").");
             Console.message(plateau.afficherPlateauJeu());

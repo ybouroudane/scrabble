@@ -13,4 +13,12 @@ public enum Lettres {
     public int ObtenirUneValeur() {
         return valeur;
     }
+    public static Lettres fromChar(char c) {
+        for (Lettres l : Lettres.values()) {
+            if (l.name().charAt(0) == Character.toUpperCase(c)) {
+                return l;
+            }
+        }
+        throw new IllegalArgumentException("Caractère invalide : " + c);
+    }
 }
