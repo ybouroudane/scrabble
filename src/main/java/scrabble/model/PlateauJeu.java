@@ -104,4 +104,43 @@ public class PlateauJeu {
     public Case obtenirCaseA(int ligne, int colonne) {
         return plateau[ligne][colonne];
     }
+    public boolean placerMot(Joueur joueur, String mot, int ligne, int colonne, boolean estHorizontal) {
+        int longueurMot = mot.length();
+        if (estHorizontal) {
+            if (colonne + longueurMot > _TAILLE_GRILLE_) {
+                return false; // Le mot dépasse les limites du plateau
+            }
+            for (int i = 0; i < longueurMot; i++) {
+                Case caseActuelle = obtenirCaseA(ligne, colonne + i);
+                if (!caseActuelle.estVide() && caseActuelle.getJeton().ObtenirLettre() != Lettres.fromChar(mot.charAt(i))) {
+                    return false; // Une case est déjà occupée par une autre lettre
+                }
+            }
+            for (int i = 0; i < longueurMot; i++) {
+                Case caseActuelle = obtenirCaseA(ligne, colonne + i);
+                Lettres lettre = Lettres.fromChar(mot.charAt(i));
+                Jeton jeton = new Jeton(lettre);
+                caseActuelle.setJeton(jeton);
+                joueur.ObtenirChevalet().retirerJeton(joueur.ObtenirChevalet().obtenirJetons().indexOf(jeton));
+            }
+        } else {
+            if (ligne + longueurMot > _TAILLE_GRILLE_) {
+                return false; // Le mot dépasse les limites du plateau
+            }
+            for (int i = 0; i < longueurMot; i++) {
+                Case caseActuelle = obtenirCaseA(ligne + i, colonne);
+                if (!caseActuelle.estVide() && caseActuelle.getJeton().ObtenirLettre() != Lettres.fromChar(mot.charAt(i))) {
+                    return false; // Une case est déjà occupée par une autre lettre
+                }
+            }
+            for (int i = 0; i < longueurMot; i++) {
+                Case caseActuelle = obtenirCaseA(ligne + i, colonne);
+                Lettres lettre = Lettres.fromChar(mot.charAt(i));
+                Jeton jeton = new Jeton(lettre);
+                caseActuelle.setJeton(jeton);
+                joueur.ObtenirChevalet().retirerJeton(joueur.ObtenirChevalet().obtenirJetons().indexOf(jeton));
+            }
+        }
+        return true;
+    }
 }
