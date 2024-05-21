@@ -194,21 +194,36 @@ public class ApplicationScrabbleConsole {
                 return true;
             } else {
                 Console.message("Placement du mot invalide.");
-                Console.message("Voulez-vous rejouer ou quitter la partie ? (rejouer/quitter)");
-                String choix = scanner.next().trim().toLowerCase();
-                if (choix.equals("rejouer")) {
+                
+                boolean entreeValide = false;
+                String choix = "";
+                while (!entreeValide) {
+                    Console.message("Voulez-vous rejouer ou quitter la partie ? (rejouer/quitter)");
+                    choix = scanner.next().trim().toLowerCase();
+                    if (choix.equals("rejouer") || choix.equals("quitter")) {
+                        entreeValide = true;
+                    } else {
+                        Console.message("Veuillez entrer soit 'rejouer' ou 'quitter'.");
+                    }
+                }
+                
+                if (choix.equals("quitter")) {
+                    Console.message("Merci d'avoir joué !");
+                    System.exit(0); // Quitter le programme
+                } else {
                     // Remettre les jetons dans le chevalet
                     for (Jeton jeton : jetonsMotBuilder) {
                         joueur.ObtenirChevalet().ajouterJeton(jeton);
                     }
                     return false; // Continuer la boucle while pour rejouer
-                } else {
-                    // Quitter la partie
-                    return true; // Sortir de la méthode et de la boucle
                 }
             }
         }
+
+        // Ajout d'un return false par défaut pour garantir que la méthode renvoie toujours une valeur
+        return false;
     }
+
     private static List<Integer> choisirJetonsAChanger(Scanner scanner) {
         Console.message("Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter (AUSSI SI VOUS VOULEZ GARDER VOTRE CHEVALET) :");
         List<Integer> indices = new ArrayList<>();
