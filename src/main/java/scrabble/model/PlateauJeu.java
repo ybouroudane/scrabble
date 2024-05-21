@@ -104,43 +104,68 @@ public class PlateauJeu {
     public Case obtenirCaseA(int ligne, int colonne) {
         return plateau[ligne][colonne];
     }
-    public boolean placerMot(Joueur joueur, String mot, int ligne, int colonne, boolean estHorizontal) {
+    public boolean placerMot(Joueur joueur, String mot, int ligneBase, int colonneBase, boolean estHorizontal) {
         int longueurMot = mot.length();
+
+        // Vérifier si c'est le premier mot
+        boolean estPremierMot = estVide();
+
+        if (!estPremierMot && !verifierPlacementValide(mot, ligneBase, colonneBase, estHorizontal)) {
+            return false;
+        }
+
         if (estHorizontal) {
-            if (colonne + longueurMot > _TAILLE_GRILLE_) {
+            if (colonneBase + longueurMot > _TAILLE_GRILLE_) {
                 return false; // Le mot dépasse les limites du plateau
             }
             for (int i = 0; i < longueurMot; i++) {
-                Case caseActuelle = obtenirCaseA(ligne, colonne + i);
-                if (!caseActuelle.estVide() && caseActuelle.getJeton().ObtenirLettre() != Lettres.fromChar(mot.charAt(i))) {
-                    return false; // Une case est déjà occupée par une autre lettre
-                }
-            }
-            for (int i = 0; i < longueurMot; i++) {
-                Case caseActuelle = obtenirCaseA(ligne, colonne + i);
+                Case caseActuelle = obtenirCaseA(ligneBase, colonneBase + i);
                 Lettres lettre = Lettres.fromChar(mot.charAt(i));
                 Jeton jeton = new Jeton(lettre);
                 caseActuelle.setJeton(jeton);
                 joueur.ObtenirChevalet().retirerJeton(joueur.ObtenirChevalet().obtenirJetons().indexOf(jeton));
             }
         } else {
-            if (ligne + longueurMot > _TAILLE_GRILLE_) {
+            if (ligneBase + longueurMot > _TAILLE_GRILLE_) {
                 return false; // Le mot dépasse les limites du plateau
             }
             for (int i = 0; i < longueurMot; i++) {
-                Case caseActuelle = obtenirCaseA(ligne + i, colonne);
-                if (!caseActuelle.estVide() && caseActuelle.getJeton().ObtenirLettre() != Lettres.fromChar(mot.charAt(i))) {
-                    return false; // Une case est déjà occupée par une autre lettre
-                }
-            }
-            for (int i = 0; i < longueurMot; i++) {
-                Case caseActuelle = obtenirCaseA(ligne + i, colonne);
+                Case caseActuelle = obtenirCaseA(ligneBase + i, colonneBase);
                 Lettres lettre = Lettres.fromChar(mot.charAt(i));
                 Jeton jeton = new Jeton(lettre);
                 caseActuelle.setJeton(jeton);
                 joueur.ObtenirChevalet().retirerJeton(joueur.ObtenirChevalet().obtenirJetons().indexOf(jeton));
             }
         }
+        return true;
+    }
+    public boolean verifierPlacementValide(String mot, int ligneBase, int colonneBase, boolean estHorizontal) {
+        int longueurMot = mot.length();
+        Case caseBase = obtenirCaseA(ligneBase, colonneBase);
+
+        // Vérifier que la case de base n'est pas vide
+        if (caseBase.estVide()) {
+            return false;
+        }
+
+        if (estHorizontal) {
+            // Vérifier que les cases suivantes sont vides
+            for (int i = 1; i < longueurMot; i++) {
+                Case caseActuelle = obtenirCaseA(ligneBase, colonneBase + i);
+                if (!caseActuelle.estVide() && caseActuelle.getJeton().ObtenirLettre() != Lettres.fromChar(mot.charAt(i))) {
+                    return false;
+                }
+            }
+        } else {
+            // Vérifier que les cases suivantes sont vides
+            for (int i = 1; i < longueurMot; i++) {
+                Case caseActuelle = obtenirCaseA(ligneBase + i, colonneBase);
+                if (!caseActuelle.estVide() && caseActuelle.getJeton().ObtenirLettre() != Lettres.fromChar(mot.charAt(i))) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 }

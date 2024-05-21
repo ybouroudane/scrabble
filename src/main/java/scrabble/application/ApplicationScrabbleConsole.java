@@ -70,10 +70,9 @@ public class ApplicationScrabbleConsole {
             }
         }
     }
-
     private static boolean insererMot(Joueur joueur, PlateauJeu plateau, Scanner scanner, SacDeJetons sacDeJetons) {
         List<Integer> indicesLettres = new ArrayList<>();
-        boolean hasEnteredValidIndex = false; // Variable pour suivre si un indice valide a été entré
+        boolean hasEnteredValidIndex = false;
         while (!hasEnteredValidIndex) {
             Console.message("Entrez les indices des lettres de votre mot (tapez 'ok' pour terminer) :");
             while (true) {
@@ -87,15 +86,15 @@ public class ApplicationScrabbleConsole {
                         if (indiceLettre >= 1 && indiceLettre <= Chevalet.MAX_JETONS) {
                             if (!indicesLettres.contains(indiceLettre - 1)) {
                                 indicesLettres.add(indiceLettre - 1);
-                                hasEnteredValidIndex = true; // Marquer qu'un indice valide a été entré
+                                hasEnteredValidIndex = true;
                             } else {
                                 Console.message("Vous avez déjà entré cet indice. Veuillez en choisir un autre.");
                             }
                         } else {
-                            throw new NumberFormatException(); // Lancer une exception si l'indice n'est pas valide
+                            throw new NumberFormatException();
                         }
                     } catch (NumberFormatException e) {
-                        if (!input.isEmpty()) { // Afficher le message seulement si l'entrée n'est pas vide
+                        if (!input.isEmpty()) {
                             Console.message("Indice de lettre invalide. Veuillez réessayer.");
                         }
                     }
@@ -106,7 +105,6 @@ public class ApplicationScrabbleConsole {
                 Console.message("Aucune lettre saisie.");
             }
         }
-
 
         List<Jeton> jetonsMotBuilder = new ArrayList<>();
         boolean contientJoker = false;
@@ -144,9 +142,6 @@ public class ApplicationScrabbleConsole {
             String direction = scanner.next().trim().toLowerCase();
 
             if (plateau.placerMot(joueur, mot, ligneCentrale, colonneCentrale, direction.equals("h"))) {
-                Console.message("Mot placé avec succès !");
-                Console.message(plateau.afficherPlateauJeu());
-
                 // Retirer les lettres utilisées du chevalet
                 for (int indice : indicesLettres) {
                     joueur.ObtenirChevalet().obtenirJetons().set(indice, null);
@@ -162,20 +157,22 @@ public class ApplicationScrabbleConsole {
                         jetons.set(i, sacDeJetons.piocherJeton());
                     }
                 }
+
+                Console.message(plateau.afficherPlateauJeu()); // Afficher le plateau
                 return true;
             } else {
                 Console.message("Placement du mot invalide.");
                 return false;
             }
         } else {
-            Console.message("Entrez les coordonnées de la première lettre (ligne colonne) :");
-            int ligne = scanner.nextInt() - 1;
-            int colonne = scanner.nextInt() - 1;
+            Console.message("Entrez les coordonnées de la lettre sur laquelle le mot doit s'appuyer (ligne colonne) :");
+            int ligneBase = scanner.nextInt() - 1;
+            int colonneBase = scanner.nextInt() - 1;
 
             Console.message("Choisissez la direction (h pour horizontale, v pour verticale) :");
             String direction = scanner.next().trim().toLowerCase();
 
-            if (plateau.placerMot(joueur, mot, ligne, colonne, direction.equals("h"))) {
+            if (plateau.placerMot(joueur, mot, ligneBase, colonneBase, direction.equals("h"))) {
                 Console.message("Mot placé avec succès !");
                 Console.message(plateau.afficherPlateauJeu());
 
@@ -197,11 +194,21 @@ public class ApplicationScrabbleConsole {
                 return true;
             } else {
                 Console.message("Placement du mot invalide.");
-                return false;
+                Console.message("Voulez-vous rejouer ou quitter la partie ? (rejouer/quitter)");
+                String choix = scanner.next().trim().toLowerCase();
+                if (choix.equals("rejouer")) {
+                    // Remettre les jetons dans le chevalet
+                    for (Jeton jeton : jetonsMotBuilder) {
+                        joueur.ObtenirChevalet().ajouterJeton(jeton);
+                    }
+                    return false; // Continuer la boucle while pour rejouer
+                } else {
+                    // Quitter la partie
+                    return true; // Sortir de la méthode et de la boucle
+                }
             }
         }
     }
-
     private static List<Integer> choisirJetonsAChanger(Scanner scanner) {
         Console.message("Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter (AUSSI SI VOUS VOULEZ GARDER VOTRE CHEVALET) :");
         List<Integer> indices = new ArrayList<>();
