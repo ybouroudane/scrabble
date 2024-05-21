@@ -30,6 +30,7 @@ public class ApplicationScrabbleConsole {
         Console.message("Entrez votre prénom:");
         String nomJoueur = scanner.nextLine();
         Joueur joueur1 = new Joueur(nomJoueur);
+        Console.message("VOTRE SCORE EST : " + joueur1.getScore());	
         joueur1.piocher(sacDeJetons);
         afficherJetonsRestantsV2(sacDeJetons);
 
@@ -141,28 +142,33 @@ public class ApplicationScrabbleConsole {
             Console.message("Choisissez la direction (h pour horizontale, v pour verticale) :");
             String direction = scanner.next().trim().toLowerCase();
 
-            if (plateau.placerMot(joueur, mot, ligneCentrale, colonneCentrale, direction.equals("h"))) {
-                // Retirer les lettres utilisées du chevalet
-                for (int indice : indicesLettres) {
-                    joueur.ObtenirChevalet().obtenirJetons().set(indice, null);
-                }
-
-                // Piocher de nouvelles lettres pour compléter le chevalet
-                joueur.piocher(sacDeJetons);
-
-                // Remplir les emplacements vides du chevalet avec les nouvelles lettres
-                List<Jeton> jetons = joueur.ObtenirChevalet().obtenirJetons();
-                for (int i = 0; i < jetons.size(); i++) {
-                    if (jetons.get(i) == null) {
-                        jetons.set(i, sacDeJetons.piocherJeton());
+            if (direction.equals("h") || direction.equals("v")) {
+                if (plateau.placerMot(joueur, mot, ligneCentrale, colonneCentrale, direction.equals("h"))) {
+                    // Retirer les lettres utilisées du chevalet
+                    for (int indice : indicesLettres) {
+                        joueur.ObtenirChevalet().obtenirJetons().set(indice, null);
                     }
-                }
 
-                Console.message(plateau.afficherPlateauJeu()); // Afficher le plateau
-                return true;
+                    // Piocher de nouvelles lettres pour compléter le chevalet
+                    joueur.piocher(sacDeJetons);
+
+                    // Remplir les emplacements vides du chevalet avec les nouvelles lettres
+                    List<Jeton> jetons = joueur.ObtenirChevalet().obtenirJetons();
+                    for (int i = 0; i < jetons.size(); i++) {
+                        if (jetons.get(i) == null) {
+                            jetons.set(i, sacDeJetons.piocherJeton());
+                        }
+                    }
+
+                    Console.message(plateau.afficherPlateauJeu()); // Afficher le plateau
+                    return true;
+                } else {
+                    Console.message("Placement du mot invalide.");
+                    return false;
+                }
             } else {
-                Console.message("Placement du mot invalide.");
-                return false;
+                Console.message("Entrée invalide. Veuillez entrer 'h' pour horizontale ou 'v' pour verticale.");
+                return false; // Sortir de la méthode sans placer le mot
             }
         } else {
             Console.message("Entrez les coordonnées de la lettre sur laquelle le mot doit s'appuyer (ligne colonne) :");
@@ -172,58 +178,45 @@ public class ApplicationScrabbleConsole {
             Console.message("Choisissez la direction (h pour horizontale, v pour verticale) :");
             String direction = scanner.next().trim().toLowerCase();
 
-            if (plateau.placerMot(joueur, mot, ligneBase, colonneBase, direction.equals("h"))) {
-                Console.message("Mot placé avec succès !");
-                Console.message(plateau.afficherPlateauJeu());
-
-                // Retirer les lettres utilisées du chevalet
-                for (int indice : indicesLettres) {
-                    joueur.ObtenirChevalet().obtenirJetons().set(indice, null);
-                }
-
-                // Piocher de nouvelles lettres pour compléter le chevalet
-                joueur.piocher(sacDeJetons);
-
-                // Remplir les emplacements vides du chevalet avec les nouvelles lettres
-                List<Jeton> jetons = joueur.ObtenirChevalet().obtenirJetons();
-                for (int i = 0; i < jetons.size(); i++) {
-                    if (jetons.get(i) == null) {
-                        jetons.set(i, sacDeJetons.piocherJeton());
-                    }
-                }
-                return true;
-            } else {
-                Console.message("Placement du mot invalide.");
-                
-                boolean entreeValide = false;
-                String choix = "";
-                while (!entreeValide) {
-                    Console.message("Voulez-vous rejouer ou quitter la partie ? (rejouer/quitter)");
-                    choix = scanner.next().trim().toLowerCase();
-                    if (choix.equals("rejouer") || choix.equals("quitter")) {
-                        entreeValide = true;
-                    } else {
-                        Console.message("Veuillez entrer soit 'rejouer' ou 'quitter'.");
-                    }
-                }
-                
-                if (choix.equals("quitter")) {
-                    Console.message("Merci d'avoir joué !");
-                    System.exit(0); // Quitter le programme
-                } else {
-                    // Remettre les jetons dans le chevalet
+            if (direction.equals("h") || direction.equals("v")) {
+                if (plateau.placerMot(joueur, mot, ligneBase, colonneBase, direction.equals("h"))) {
+                    Console.message("Mot placé avec succès !");
+                    Console.message(plateau.afficherPlateauJeu());
+                    int scoreMotActuel = 0;
                     for (Jeton jeton : jetonsMotBuilder) {
-                        joueur.ObtenirChevalet().ajouterJeton(jeton);
+                        scoreMotActuel += jeton.ObtenirLettre().ObtenirUneValeur();
                     }
-                    return false; // Continuer la boucle while pour rejouer
+                    // Ajouter le score du mot au score du joueur
+                    joueur.ajouterScore(scoreMotActuel);
+
+                    Console.message("VOTRE SCORE EST : " + joueur.getScore());
+
+                    // Retirer les lettres utilisées du chevalet
+                    for (int indice : indicesLettres) {
+                        joueur.ObtenirChevalet().obtenirJetons().set(indice, null);
+                    }
+
+                    // Piocher de nouvelles lettres pour compléter le chevalet
+                    joueur.piocher(sacDeJetons);
+
+                    // Remplir les emplacements vides du chevalet avec les nouvelles lettres
+                    List<Jeton> jetons = joueur.ObtenirChevalet().obtenirJetons();
+                    for (int i = 0; i < jetons.size(); i++) {
+                        if (jetons.get(i) == null) {
+                            jetons.set(i, sacDeJetons.piocherJeton());
+                        }
+                    }
+                    return true;
+                } else {
+                    Console.message("Placement du mot invalide.");
+                    return false;
                 }
+            } else {
+                Console.message("Entrée invalide. Veuillez entrer 'h' pour horizontale ou 'v' pour verticale.");
+                return false; // Sortir de la méthode sans placer le mot
             }
         }
-
-        // Ajout d'un return false par défaut pour garantir que la méthode renvoie toujours une valeur
-        return false;
-    }
-
+    }                
     private static List<Integer> choisirJetonsAChanger(Scanner scanner) {
         Console.message("Pour remplacer des jetons, entrez les indices un à un puis écrivez OK pour arrêter (AUSSI SI VOUS VOULEZ GARDER VOTRE CHEVALET) :");
         List<Integer> indices = new ArrayList<>();

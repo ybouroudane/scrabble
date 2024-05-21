@@ -5,15 +5,14 @@ import java.util.List;
 
 public class Joueur {
     private final String nom;
-    private int score;
+    private int score; // Nouveau champ pour stocker le score
     private Chevalet chevalet;
 
     public Joueur(String nom) {
         this.nom = nom;
-        this.score = 0;
+        this.score = 0; // Initialiser le score à 0
         this.chevalet = new Chevalet();
     }
-
     public int AfficherScore() {
         return score;
     }
@@ -45,5 +44,12 @@ public class Joueur {
         }
         this.piocher(sacDeJetons);
         sacDeJetons.melanger();
+    }
+    public int getScore() {
+        return score;
+    }
+
+    public void ajouterScore(int points) {
+        score += points;
     }
 }
