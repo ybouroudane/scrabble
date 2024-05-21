@@ -70,15 +70,15 @@ public class PlateauJeu {
                 if (caseActuelle.getJeton() != null) {
                     temp.append("| ").append(caseActuelle.getJeton().ObtenirLettre()).append(" ");
                 } else if (caseActuelle.ObtenirCaseSpeciale() == CaseSpeciale.ETOILE) {
-                    temp.append("| * ");
+                    temp.append("|").append(CaseColor.BOLD).append(" * ").append(CaseColor.RESET);
                 } else if (caseActuelle.estDoubleMot()) {
-                    temp.append("|DM ");
+                    temp.append("|").append(CaseColor.BLUE).append("DM ").append(CaseColor.RESET);
                 } else if (caseActuelle.estTripleMot()) {
-                    temp.append("|TM ");
+                    temp.append("|").append(CaseColor.RED).append("TM ").append(CaseColor.RESET);
                 } else if (caseActuelle.estDoubleLettre()) {
-                    temp.append("|DL ");
+                    temp.append("|").append(CaseColor.GREEN).append("DL ").append(CaseColor.RESET);
                 } else if (caseActuelle.estTripleLettre()) {
-                    temp.append("|TL ");
+                    temp.append("|").append(CaseColor.YELLOW).append("TL ").append(CaseColor.RESET);
                 } else {
                     temp.append("|   "); // Sinon, écrire une case vide
                 }
@@ -89,6 +89,7 @@ public class PlateauJeu {
 
         return temp.toString();
     }
+
     public boolean estVide() {
         for (int i = 0; i < _TAILLE_GRILLE_; i++) {
             for (int j = 0; j < _TAILLE_GRILLE_; j++) {
@@ -104,6 +105,7 @@ public class PlateauJeu {
     public Case obtenirCaseA(int ligne, int colonne) {
         return plateau[ligne][colonne];
     }
+
     public boolean placerMot(Joueur joueur, String mot, int ligneBase, int colonneBase, boolean estHorizontal) {
         int longueurMot = mot.length();
 
@@ -139,6 +141,7 @@ public class PlateauJeu {
         }
         return true;
     }
+
     public boolean verifierPlacementValide(String mot, int ligneBase, int colonneBase, boolean estHorizontal) {
         int longueurMot = mot.length();
         Case caseBase = obtenirCaseA(ligneBase, colonneBase);
